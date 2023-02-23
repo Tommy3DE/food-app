@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { CiDiscount1 } from 'react-icons/ci'
 import Modal from '../UI/Modal';
 import CartItem from './CartItem';
@@ -9,6 +9,8 @@ import { useState } from 'react';
 const Cart = (props) => {
   const cartCtx = useContext(CartContext);
   const [discount, setDiscount] = useState('')
+  const [afterDiscount, setAfterDiscount] = useState()
+  const [hasDiscount, setHasDiscount] = useState(false)
   const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
   const hasItems = cartCtx.items.length > 0;
 
@@ -34,16 +36,27 @@ const Cart = (props) => {
       ))}
     </ul>
   );
-
+  
   const discountHandler =()=>{
-    if(discount.length > 5){
-      alert('wrong code')
-    } else if (discount.includes('%')){
-      console.log('% discount')
-    } else if (discount.includes('$')){
-      console.log('cash discount')
-    } 
+    let dscNum = `${cartCtx.totalAmount.toFixed(2)}`
+    console.log(dscNum)
+    if(discount.length > 6 || discount.length < 6){
+      alert('Kod musi posiadać 6 znaków, spróbuj OFF%10 lub OFF$10')
+      setHasDiscount(false)
+    } else if (discount === 'OFF%10'){
+      setHasDiscount(true)
+      let reducedPrice = (dscNum * 10) / 100
+      let fixPrice = reducedPrice
+
+      return setAfterDiscount(dscNum -= fixPrice)
+    } else if (discount === 'OFF$10'){
+      setHasDiscount(true)
+
+      return setAfterDiscount(dscNum -= 10)
+    }
   }
+  
+
   return (
     <Modal onClose={props.onClose}>
       {cartItems}
@@ -51,6 +64,10 @@ const Cart = (props) => {
         <span>Całkowita cena</span>
         <span>{totalAmount}</span>
       </div>
+      {(hasDiscount && hasItems) && <div className={classes.total}>
+        <span>Cena po rabacie</span>
+        <span>{afterDiscount.toFixed(2)}</span>
+      </div>}
       <div className={classes.actions}>
         <button className={classes['button--alt']} onClick={props.onClose}>
           Zamknij
