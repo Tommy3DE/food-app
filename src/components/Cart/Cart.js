@@ -1,13 +1,14 @@
 import { useContext } from 'react';
-
+import { CiDiscount1 } from 'react-icons/ci'
 import Modal from '../UI/Modal';
 import CartItem from './CartItem';
 import classes from './Cart.module.css';
 import CartContext from '../../store/cart-context';
+import { useState } from 'react';
 
 const Cart = (props) => {
   const cartCtx = useContext(CartContext);
-
+  const [discount, setDiscount] = useState('')
   const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
   const hasItems = cartCtx.items.length > 0;
 
@@ -34,6 +35,15 @@ const Cart = (props) => {
     </ul>
   );
 
+  const discountHandler =()=>{
+    if(discount.length > 5){
+      alert('wrong code')
+    } else if (discount.includes('%')){
+      console.log('% discount')
+    } else if (discount.includes('$')){
+      console.log('cash discount')
+    } 
+  }
   return (
     <Modal onClose={props.onClose}>
       {cartItems}
@@ -46,6 +56,16 @@ const Cart = (props) => {
           Zamknij
         </button>
         {hasItems && <button className={classes.button}>Zamów</button>}
+        {hasItems && <div className={classes.container}>
+          <label className={classes.discount} htmlFor='dsc'>Kod rabatowy</label>
+          <input type='text' className={classes.input} id='dsc' value={discount} onChange={(e)=>setDiscount(e.target.value)}>
+            
+          </input>
+          <button className={classes.dscBtn} onClick={discountHandler}>
+            <CiDiscount1 className={classes.dscIcon}/>
+          </button>
+        </div>  
+        }
       </div>
     </Modal>
   );

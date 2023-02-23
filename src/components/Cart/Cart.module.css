@@ -44,3 +44,39 @@
     background-color: #8a2b06;
     color: white;
   }
+
+/* ////// */
+  .actions .container {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    padding-top: 1rem;
+  }
+  .actions .input {
+    margin: 0 15px;
+    font-size: 20px;
+    width: 10rem;
+    border-radius: 10px;
+    height: 3rem;
+  }
+  .actions .dscBtn{
+    position:relative;
+    height: 50px;
+    width: 40px;
+    border-radius: 30%;
+    margin-left: 0px;
+  }
+  .actions .dscIcon{
+    position:absolute;
+    top: 20%;
+    left:25%;
+    font-size: 30px;
+  }
+  .actions .dscIcon:hover,
+  .actions .dscIcon:active,
+  .actions .dscBtn:active,
+  .actions .dscBtn:hover{
+    color: white;
+    transform: scale(1.05);
+  }
+
