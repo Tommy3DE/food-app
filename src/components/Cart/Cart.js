@@ -62,7 +62,7 @@ const Cart = (props) => {
       {cartItems}
       <div className={classes.total}>
         <span>Całkowita cena</span>
-        <span>{totalAmount}</span>
+        <span>{totalAmount.includes("-")?'$0.00':totalAmount}</span>
       </div>
       {(hasDiscount && hasItems) && <div className={classes.total}>
         <span>Cena po rabacie</span>
